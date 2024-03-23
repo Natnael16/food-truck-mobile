@@ -50,14 +50,6 @@ FoodTruck Mobile App utilizes the following third-party packages:
 - `dio`: A powerful HTTP client for making network requests.
 - `google_maps_flutter`: Provides Google Maps integration for displaying maps and location services.
 
-## Screenshots
-
-Below are screenshots of the various screens in the FoodTruck Mobile App:
-
-1. Splash Screen ![Splash Screen](splash_screen.png)
-2. Location Permission Request ![Location Permission](location_permission.png)
-3. Home Page ![Home Page](home_page.png)
-4. Food Detail Screen ![Food Detail](food_detail.png)
 
 **Future Enhancements**
 
