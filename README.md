@@ -16,37 +16,32 @@ To get started with FoodTruck Mobile App, follow these steps:
 
 ### Splash Screen
 - Displays the app logo and name upon launch.
-![splash](https://github.com/Natnael16/food-truck-mobile/assets/91603089/29a1d2a3-1cdd-454d-8ebb-de33d64a909a)
-
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/29a1d2a3-1cdd-454d-8ebb-de33d64a909a" alt="splash" width="200">
 
 ### Location Permission Request
 - Requests permission from the user to access their device's location.
-![show_ask_permission](https://github.com/Natnael16/food-truck-mobile/assets/91603089/5daeb176-92dc-44d9-9a44-cf9d997f60a0)
-![show_location_warning](https://github.com/Natnael16/food-truck-mobile/assets/91603089/555d022b-9a0e-4c84-9013-91ce6b54d5aa)
-
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/5daeb176-92dc-44d9-9a44-cf9d997f60a0" alt="show_ask_permission" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/555d022b-9a0e-4c84-9013-91ce6b54d5aa" alt="show_location_warning" width="300">
 
 ### Home Page
 - The main screen of the app where users can search for food trucks and set filters.
 - Includes a radius picker, search bar, toggle button for availability, filter selector, and location button.
-![show_home](https://github.com/Natnael16/food-truck-mobile/assets/91603089/e6807cfe-0a51-436c-af90-a7350ce59c2d)
-![availabe_search](https://github.com/Natnael16/food-truck-mobile/assets/91603089/d467942a-9779-4c6f-b9e1-53f8517b861f)
-![adress_key_word_search](https://github.com/Natnael16/food-truck-mobile/assets/91603089/418c3590-2179-4237-a996-438486341a2a)
-![show_radius_filter](https://github.com/Natnael16/food-truck-mobile/assets/91603089/638b944f-0593-4453-a38f-7c3c7d2a990a)
-![filter_by_facility](https://github.com/Natnael16/food-truck-mobile/assets/91603089/e383f414-dba3-4081-90a4-1d7b383c9d9f)
-
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/e6807cfe-0a51-436c-af90-a7350ce59c2d" alt="show_home" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/d467942a-9779-4c6f-b9e1-53f8517b861f" alt="availabe_search" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/418c3590-2179-4237-a996-438486341a2a" alt="adress_key_word_search" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/638b944f-0593-4453-a38f-7c3c7d2a990a" alt="show_radius_filter" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/e383f414-dba3-4081-90a4-1d7b383c9d9f" alt="filter_by_facility" width="300">
 
 ### Food Detail Screen
 - Displays detailed information about a selected food truck, including name, cuisine type, working hours, and food items served.
-![show_detail_page](https://github.com/Natnael16/food-truck-mobile/assets/91603089/406cee4c-e89b-4ab7-a10d-eca7810709ce)
-![show_working_hours](https://github.com/Natnael16/food-truck-mobile/assets/91603089/6670609d-1a3f-4f3a-818f-12804eabbba3)
-
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/406cee4c-e89b-4ab7-a10d-eca7810709ce" alt="show_detail_page" width="300">
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/6670609d-1a3f-4f3a-818f-12804eabbba3" alt="show_working_hours" width="300">
 
 ### Bottom Sheet for Available Foods
 - Appears when the "Food" button is tapped on the Home Page.
 - Shows all available food items in a bottom sheet.
 - When a food item is selected, it displays restaurants that serve that specific food.
-![food_items](https://github.com/Natnael16/food-truck-mobile/assets/91603089/2bc62507-58a9-4a82-b310-95fbd1e2752f)
-
+<img src="https://github.com/Natnael16/food-truck-mobile/assets/91603089/2bc62507-58a9-4a82-b310-95fbd1e2752f" alt="food_items" width="300">
 
 ## Third-Party Libraries
 
