@@ -6,8 +6,8 @@ class FacilityTypeSelector extends StatefulWidget {
   final String selectedFacility;
   final Function(String) onSelected;
 
-  FacilityTypeSelector(
-      {required this.selectedFacility, required this.onSelected});
+  const FacilityTypeSelector(
+      {super.key, required this.selectedFacility, required this.onSelected});
 
   @override
   _FacilityTypeSelectorState createState() => _FacilityTypeSelectorState();

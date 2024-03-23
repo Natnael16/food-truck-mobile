@@ -43,7 +43,7 @@ class SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 child: Transform.scale(
                   scale: 1,

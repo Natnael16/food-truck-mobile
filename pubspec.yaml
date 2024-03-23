@@ -48,6 +48,8 @@ dependencies:
   geolocator: ^11.0.0
   flutter_svg: ^2.0.10+1
   geocoding: ^3.0.0
+  http: ^1.2.0
+  dio: ^5.4.1
 
 dev_dependencies:
   flutter_test:

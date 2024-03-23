@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../core/shared_widgets/custom_button.dart';
@@ -31,7 +30,7 @@ class LocationWarning extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.warning,size: 80,color: Colors.yellow),
+              const Icon(Icons.warning,size: 80,color: Colors.yellow),
               Text("Please enable location permission to use the map.",
                   textAlign: TextAlign.center, style: textStyle),
               SizedBox(height: 2.h),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../core/shared_widgets/custom_button.dart';
 
@@ -8,7 +7,7 @@ class RadiusSelectionWidget extends StatefulWidget {
   final Function(int) onRadiusSelected;
   final Function() onSet;
 
-  RadiusSelectionWidget({
+  const RadiusSelectionWidget({super.key, 
     required this.selectedRadius,
     required this.onRadiusSelected,
     required this.onSet,
@@ -57,13 +56,13 @@ class _RadiusSelectionWidgetState extends State<RadiusSelectionWidget> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Choose Radius',
             style: TextStyle(
               fontSize: 16,
@@ -71,7 +70,7 @@ class _RadiusSelectionWidgetState extends State<RadiusSelectionWidget> {
             ),
           ),
           const SizedBox(height: 10),
-          Divider(),
+          const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -89,7 +88,7 @@ class _RadiusSelectionWidgetState extends State<RadiusSelectionWidget> {
               ),
             ],
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           CustomButton(
             width: 80,
             height: 35,

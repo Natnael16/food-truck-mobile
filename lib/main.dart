@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'core/injections/injections.dart';
 import 'core/routes/router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/home/presentation/bloc/search_bloc/search_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await injectionInit();
 
-  runApp(MyApp()
-      // return MultiBlocProvider(providers: [
-      //   //! Should be atleast one provider
-      // ], child: const MyApp());
-
-      );
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<SearchBloc>(create: (_) => SearchBloc() ,)
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +19,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return AppRouter();
+    return AppRouter();
   }
 }

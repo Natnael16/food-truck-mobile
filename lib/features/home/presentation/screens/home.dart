@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:food_truck/features/home/presentation/widgets/circle_icon_button.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -12,9 +10,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../core/shared_widgets/custom_textfield.dart';
 import '../../../../core/theme/colors.dart';
 
+import '../../data/models/food_truck_model.dart';
+import '../bloc/search_bloc/search_bloc.dart';
 import '../widgets/available_section.dart';
 import '../widgets/circle_button_with_icon.dart';
 import '../widgets/facility_selection_widget.dart';
+import '../widgets/food_truck_detail.dart';
 import '../widgets/radius_selector.dart';
 import '../widgets/search_food_bottom_sheet.dart';
 import '../widgets/warning_enable_location.dart';
@@ -29,7 +30,7 @@ class DriverHome extends StatefulWidget {
 class _DriverHomeState extends State<DriverHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         backgroundColor: white,
         drawerScrimColor: Colors.transparent,
         body: SafeArea(child: ScaffoldBody()));
@@ -49,22 +50,32 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
   bool available = false;
   bool isTruck = false;
   bool radiusWidget = false;
-  bool showCrowed = false;
   bool showFoodTrucks = true;
   String facilityType = "Truck";
 
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController searchController = TextEditingController();
   Set<Marker> _markers = {};
-  var currentLocation = const LatLng(8.90042, 38.72334);
+  var currentLocation = const LatLng(37.76008693198698, -122.41880648110114);
 
   BitmapDescriptor? truckMapIcon;
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<SearchBloc>(context).add(const SearchFoodTruck());
     requestLocationPermissions();
     initializeMarkerImages();
+  }
+
+  search() {
+    BlocProvider.of<SearchBloc>(context).add(SearchFoodTruck(
+        query: searchController.text,
+        isTruck: facilityType == 'Truck' ? true : false,
+        isAvailable: available,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        radius: double.parse(radius.toString()) * 1000));
   }
 
   void initializeMarkerImages() async {
@@ -76,46 +87,37 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
     setState(() {});
   }
 
-  void setTruckLocations() {
-    List<LatLng> centerCircle = [
-      LatLng(currentLocation.latitude, currentLocation.longitude),
-      LatLng(currentLocation.latitude - 0.0013,
-          currentLocation.longitude + 0.0022),
-      LatLng(
-          currentLocation.latitude + 0.010, currentLocation.longitude - 0.0112),
-      LatLng(currentLocation.latitude + 0.0102,
-          currentLocation.longitude - 0.0012),
-    ];
-
-    _markers = Set.from(centerCircle.map((pos) {
+  void setTruckLocations(List<FoodTruck> foodTrucks) {
+    _markers = Set.from(foodTrucks.map((truck) {
       return Marker(
-          markerId: MarkerId(pos.toString()),
+          markerId:
+              MarkerId(truck.location.toString() + truck.applicant.toString()),
           icon: truckMapIcon ?? BitmapDescriptor.defaultMarker,
-          position: pos,
+          position: truck.location ?? const LatLng(0, 0),
           onTap: () async {
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return Text('detail');
+                  return FoodTruckDetailsBottomSheet(foodTruck: truck);
                 });
           });
     }));
+    setState(() {});
   }
 
   void setCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
+    // Position position = await Geolocator.getCurrentPosition();
 
-    setState(() {
-      currentLocation = LatLng(position.latitude, position.longitude);
-    });
+    // setState(() {
+    //   currentLocation = LatLng(position.latitude, position.longitude);
+    // });
 
-    if (_controller.isCompleted) {
-      final GoogleMapController controller = await _controller.future;
-      controller.animateCamera(CameraUpdate.newLatLng(
-        LatLng(currentLocation.latitude, currentLocation.longitude),
-      ));
-      setTruckLocations();
-    }
+    // if (_controller.isCompleted) {
+    //   final GoogleMapController controller = await _controller.future;
+    //   // controller.animateCamera(CameraUpdate.newLatLng(
+    //   //   LatLng(currentLocation.latitude, currentLocation.longitude),
+    //   // ));
+    // }
   }
 
   void requestLocationPermissions() async {
@@ -156,19 +158,54 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GoogleMap(
-          myLocationEnabled: true,
-          trafficEnabled: trafficEnabled,
-          zoomControlsEnabled: false,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(37.76008693198698, -122.41880648110114),
-            zoom: 14.5,
-          ),
-          onMapCreated: (controller) {
-            _controller.complete(controller);
-            setCurrentLocation();
+        BlocConsumer<SearchBloc, SearchState>(
+          listener: (context, state) {
+            if (state is SearchLoading) {
+              // Show loading indicator
+              showDialog(
+                context: context,
+                barrierDismissible:
+                    false, // Prevent dismissing by tapping outside
+                builder: (BuildContext context) {
+                  return const Center(
+                    child:
+                        CircularProgressIndicator(), // Circular loading indicator
+                  );
+                },
+              );
+            } else if (state is SearchSuccess) {
+              // Hide loading indicator and set the truck locations
+              Navigator.of(context).pop(); // Dismiss the loading indicator
+              setState(() {
+                setTruckLocations(state.foodTrucks);
+              });
+            } else if (state is SearchFailure) {
+              Navigator.of(context).pop(); // Dismiss the loading indicator
+              // Show SnackBar for failure
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Failed to fetch food trucks'),
+                  duration: Duration(seconds: 3), // Adjust duration as needed
+                ),
+              );
+            }
           },
-          markers: showFoodTrucks ? _markers : {},
+          builder: (context, state) {
+            return GoogleMap(
+              myLocationEnabled: true,
+              trafficEnabled: trafficEnabled,
+              zoomControlsEnabled: false,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(37.76008693198698, -122.41880648110114),
+                zoom: 14.5,
+              ),
+              onMapCreated: (controller) {
+                _controller.complete(controller);
+                setCurrentLocation();
+              },
+              markers: _markers,
+            );
+          },
         ),
         Container(
             margin: const EdgeInsets.only(top: 0),
@@ -194,8 +231,8 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                         scale: 0.5,
                         child:
                             const Icon(Icons.search, size: 60, color: black)),
-                    backgroundColor: radiusWidget ? primaryColor : white,
-                    onTap: () {}),
+                    backgroundColor: white,
+                    onTap: search),
               ],
             )),
         rightSideActions(),
@@ -285,11 +322,11 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
   }
 
   onSearchFoods() {
-     showModalBottomSheet(
+    showModalBottomSheet(
       // isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return SearchFoodsBottomSheet(); // Use SearchFoodsBottomSheet widget here
+        return const SearchFoodsBottomSheet(); // Use SearchFoodsBottomSheet widget here
       },
     );
   }

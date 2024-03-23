@@ -19,7 +19,7 @@ class AppRouter extends StatelessWidget {
         ),
         GoRoute(
           path: AppRoutes.home,
-          builder: (context, state) => DriverHome(),
+          builder: (context, state) => const DriverHome(),
         ),
       ],
     );
