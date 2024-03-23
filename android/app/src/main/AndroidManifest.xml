@@ -10,7 +10,7 @@
         android:label="food_truck"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDui8VNDF_Sbynk0ecYNm4fit9B6FnLlzE"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="api key"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
